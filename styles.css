@@ -363,3 +363,9 @@ h1, h2, h3, p { margin: 0; }
 .install-text span { color: var(--muted); }
 .install .ios-share { color: var(--accent); font-size: 16px; }
 .install-x { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); font-size: 16px; cursor: pointer; }
+.install { align-items: flex-start; }
+.install-text .install-note { color: var(--text); font-size: 14px; font-weight: 600; }
+.install-text ol { margin: 4px 0 0; padding-left: 18px; color: var(--muted); }
+.install-text ol li + li { margin-top: 3px; }
+.install-text b { color: var(--text); }
+.install .btn.small { align-self: center; }

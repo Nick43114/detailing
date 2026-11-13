@@ -1,5 +1,5 @@
 /* Service worker: кеш оболонки застосунку, щоб він відкривався швидко й без мережі. */
-const VERSION = "v3";
+const VERSION = "v4";
 const CACHE = "detailing-" + VERSION;
 
 const SHELL = [
