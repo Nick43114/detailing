@@ -149,7 +149,7 @@ window.STUDIO_CONFIG = {
   // Поки поля порожні, застосунок працює в ДЕМО-режимі: записи й правки
   // зберігаються лише в браузері цього пристрою.
   supabase: {
-    url: "https://wlwcqjimknduveeqmtwh.supabase.co/rest/v1/",    
+    url: "https://wlwcqjimknduveeqmtwh.supabase.co",
     anonKey: "sb_publishable_3snwOLBGD7F8mp69HznABg_d_qn3NdU"
   },
 
@@ -159,6 +159,6 @@ window.STUDIO_CONFIG = {
     // Пароль у коді не зберігається: власник вводить його при вході.
     email: "xkfl7374@gmail.com",
     // Лише для ДЕМО-режиму (коли supabase.url порожній). З Supabase не використовується.
-    demoPassword: "BMWmmm33333f30"
+    demoPassword: "demo1234"
   }
 };

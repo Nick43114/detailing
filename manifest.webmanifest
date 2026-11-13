@@ -4,10 +4,12 @@
   "description": "Студія детейлінгу авто: послуги та онлайн-запис",
   "lang": "uk",
   "dir": "ltr",
+  "id": "./",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
+  "categories": ["business", "lifestyle"],
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "icons": [

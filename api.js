@@ -13,7 +13,8 @@
   var ownerCfg = BASE.owner || {};
   var configured = !!(sb.url && sb.anonKey);
   var mode = configured ? "supabase" : "demo";
-  var ORIGIN = configured ? String(sb.url).replace(/\/+$/, "") : "";
+  // Приймаємо URL у будь-якому вигляді: «https://x.supabase.co», з «/» або з «/rest/v1/» — зайве прибираємо.
+  var ORIGIN = configured ? String(sb.url).trim().replace(/\/+$/, "").replace(/\/(rest|auth|storage)\/v1$/i, "").replace(/\/+$/, "") : "";
   var isJwtKey = /^eyJ/.test(sb.anonKey || "");
 
   var MESSAGES = {

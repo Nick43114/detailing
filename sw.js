@@ -1,5 +1,5 @@
 /* Service worker: кеш оболонки застосунку, щоб він відкривався швидко й без мережі. */
-const VERSION = "v2";
+const VERSION = "v3";
 const CACHE = "detailing-" + VERSION;
 
 const SHELL = [
@@ -15,6 +15,8 @@ const SHELL = [
   "assets/hero.svg",
   "assets/icon-192.png",
   "assets/icon-512.png",
+  "assets/icon-180.png",
+  "assets/icon-maskable-512.png",
   "assets/s-wash.svg",
   "assets/s-interior.svg",
   "assets/s-polish.svg",

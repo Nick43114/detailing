@@ -348,3 +348,18 @@ h1, h2, h3, p { margin: 0; }
   .view > * { animation: rise .35s ease both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
+
+/* ── Підказка «Додати на головний екран» ── */
+.install {
+  position: fixed; z-index: 30; left: 12px; right: 12px; max-width: 536px; margin: 0 auto;
+  bottom: calc(var(--tab-h) + var(--safe-b) + 12px);
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  background: var(--surface-2); border: 1px solid var(--accent); border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .55); animation: rise .35s ease both;
+}
+.install-ico { width: 44px; height: 44px; border-radius: 11px; flex: none; }
+.install-text { flex: 1; min-width: 0; display: grid; gap: 2px; font-size: 13px; line-height: 1.35; }
+.install-text strong { font-size: 15px; }
+.install-text span { color: var(--muted); }
+.install .ios-share { color: var(--accent); font-size: 16px; }
+.install-x { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); font-size: 16px; cursor: pointer; }

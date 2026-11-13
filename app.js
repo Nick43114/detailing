@@ -240,7 +240,7 @@
     } catch (e) {
       if (bk.date !== iso) return;
       bk.busy = null;
-      bk.busyError = (e && e.message) || "Не вдалося завантажити вільний час.";
+      bk.busyError = (e && e.code === "network") ? e.message : "Не вдалося завантажити вільний час" + (e && e.status ? " (помилка " + e.status + ")" : "") + ". Спробуйте ще раз або зателефонуйте нам.";
     }
     bk.loading = false;
     drawBooking();
@@ -772,6 +772,69 @@
     applyBranding();
     if (currentRoute !== "owner") route();
   });
+
+
+  // ── Додавання на головний екран (без магазинів застосунків) ─
+  // Браузер не дозволяє додати іконку мовчки: потрібна одна згода клієнта.
+  // Android/Chrome: показуємо кнопку «Встановити» (системне вікно підтвердження).
+  // iPhone/iPad: Apple не має такого вікна, тому показуємо коротку підказку.
+  (function setupInstall() {
+    const KEY = "studio.install.hiddenUntil";
+    const standalone = function () {
+      return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+    };
+    const hiddenNow = function () {
+      try { return Number(localStorage.getItem(KEY) || 0) > Date.now(); } catch (e) { return false; }
+    };
+    const hideFor = function (days) {
+      try { localStorage.setItem(KEY, String(Date.now() + days * 86400000)); } catch (e) { /* ігноруємо */ }
+    };
+    if (standalone()) return;
+
+    const ua = navigator.userAgent || "";
+    const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    let deferred = null, box = null;
+
+    function close(days) {
+      if (box) { box.remove(); box = null; }
+      hideFor(days);
+    }
+    function show(kind) {
+      if (box || hiddenNow() || standalone()) return;
+      box = document.createElement("div");
+      box.className = "install";
+      box.setAttribute("role", "dialog");
+      box.setAttribute("aria-label", "Додати на головний екран");
+      const name = esc(cfg.name);
+      box.innerHTML =
+        '<img class="install-ico" src="assets/icon-192.png" alt="" width="44" height="44">' +
+        '<div class="install-text"><strong>' + name + "</strong>" +
+        (kind === "ios"
+          ? '<span>Натисніть <b class="ios-share" aria-label="Поділитися">⬆︎</b> внизу екрана, потім «На початковий екран» — іконка з’явиться як у застосунку.</span>'
+          : "<span>Додайте на головний екран — відкриватиметься як застосунок, без магазину.</span>") +
+        "</div>" +
+        (kind === "ios" ? "" : '<button type="button" class="btn small" data-install="go">Встановити</button>') +
+        '<button type="button" class="install-x" data-install="x" aria-label="Закрити">✕</button>';
+      document.body.appendChild(box);
+      box.addEventListener("click", function (e) {
+        const t = e.target.closest("[data-install]");
+        if (!t) return;
+        if (t.dataset.install === "x") { close(kind === "ios" ? 14 : 7); return; }
+        if (!deferred) return;
+        deferred.prompt();
+        deferred.userChoice.then(function (r) { deferred = null; close(r && r.outcome === "accepted" ? 365 : 7); }).catch(function () { close(7); });
+      });
+    }
+
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      deferred = e;
+      setTimeout(function () { show("android"); }, 2500);
+    });
+    window.addEventListener("appinstalled", function () { deferred = null; close(365); });
+
+    if (isIOS) setTimeout(function () { show("ios"); }, 3500);
+  })();
 
   // ── PWA: service worker (працює на https або localhost) ────
   const secure = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
