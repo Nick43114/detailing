@@ -16,7 +16,11 @@
 <main>
   <h1>404</h1>
   <p>Такої сторінки немає. Поверніться на головну.</p>
-  <a href="/">На головну</a>
+  <a id="home" href="/">На головну</a>
+  <script>
+    // На GitHub Pages сайт лежить у підпапці /назва-репозиторію/ — ведемо саме туди.
+    if (/\.github\.io$/.test(location.hostname)) { var seg = location.pathname.split("/")[1]; if (seg) document.getElementById("home").href = "/" + seg + "/"; }
+  </script>
 </main>
 </body>
 </html>
